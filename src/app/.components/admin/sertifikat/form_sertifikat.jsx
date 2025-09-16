@@ -44,7 +44,7 @@ export default function SertifikatForm(){
         }
 
         try {
-            const response = await fetch('/api/sertifikat', {
+            const response = await fetch('@api/admin/sertifikat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
