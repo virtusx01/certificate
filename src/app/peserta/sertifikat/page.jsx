@@ -21,7 +21,7 @@ export default function CertificateSearch() {
         setResults(null);
 
         try {
-            const response = await fetch('/api/user/certificate', {
+            const response = await fetch('/api/peserta/sertifikat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,11 +45,15 @@ export default function CertificateSearch() {
         }
     }
 
+    async function handleDownload(certificateId) {
+        alert(`Download certificate with ID: ${certificateId}`);
+    }
+
     return (
         <main> 
             <div>
-                <h1>Pencarian Sertifikat</h1>
-                <form onSubmit={handleSearch} style={{ marginBottom: '20px' }}>
+                <h1 className='text-center'>Pencarian Sertifikat</h1>
+                <form sty onSubmit={handleSearch} style={{ marginBottom: '20px', textAlign: 'center', marginTop: '20px' }}>
                     <div>
                         <input 
                             type='text' 
@@ -72,15 +76,21 @@ export default function CertificateSearch() {
 
                 {results && results.length > 0 ? (
                     <div>
-                        <h2>Hasil Pencarian:</h2>
+                        <h2 className=''>Hasil Pencarian:</h2>
                         {results.map((result) => (
                             <div key={result.id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
-                                <p><strong>ID:</strong> {result.id}</p>
+                                <p><strong>Nomor Sertifikat:</strong> {result.nomor_sertifikat}</p>
                                 <p><strong>NIK:</strong> {result.nik}</p>
-                                <p><strong>Nama:</strong> {result.name}</p>
-                                <p><strong>Judul Sertifikat:</strong> {result.title}</p>
-                                <p><strong>Kategori:</strong> {result.category}</p>
-                                <p><strong>Status:</strong> {result.status}</p>
+                                <p><strong>Nama:</strong> {result.peserta.nama}</p>
+                                <p><strong>Jenis Kegiatan:</strong> {result.sertifikat.jenis_kegiatan}</p>
+                                <p><strong>Detail Kegiatan:</strong> {result.sertifikat.detail_kegiatan}</p>
+                                <p><strong>Tanggal Terbit:</strong> {result.sertifikat.tanggal_terbit}</p>
+                                <p><strong>Status:</strong> {result.sertifikat.status ? "Aktif" : "Tidak Aktif"}</p>
+                                <button onClick={() => handleDownload(result.sertifikat.file_url)}
+                                    disabled={!result.sertifikat.status}
+                                    className={result.sertifikat.status ? 'button-download' : 'button-invalid'}>
+                                        {result.sertifikat.status ? 'Download' : 'Tidak Valid'}
+                                    </button>
                             </div>
                         ))}
                     </div>
