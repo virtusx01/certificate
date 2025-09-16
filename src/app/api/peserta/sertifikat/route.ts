@@ -1,10 +1,16 @@
 // src/app/api/certificate/route.js
 import { NextResponse } from 'next/server';
-import supabaseClient from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 
 export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic'; // bila datanya dinamis
-export const revalidate = 0;     
+export const dynamic = 'force-dynamic'; 
+export const revalidate = 0;  
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE!
+);
+
 
 export async function GET(request) {
   try {
@@ -17,7 +23,7 @@ export async function GET(request) {
       return NextResponse.json({ error: 'NIK is required' }, { status: 400 });
     }
 
-    const { data, error } = await supabaseClient
+    const { data, error } = await supabase
       .from('sertifikat_peserta')
       .select('nik, nomor_sertifikat')
       .eq('nik', nik);
@@ -58,7 +64,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'NIK is required' }, { status: 400 });
     }
 
-    const { data, error } = await supabaseClient
+    const { data, error } = await supabase
       .from('sertifikat_peserta')
       .select(`nik, nomor_sertifikat, peserta!sertifikat_peserta_nik_fkey (nama), sertifikat!sertifikat_peserta_nomor_sertifikat_fkey(nomor_sertifikat,jenis_kegiatan, detail_kegiatan, tanggal_terbit, status)`)
       .eq('nik', nik);

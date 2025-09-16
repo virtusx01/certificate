@@ -21,7 +21,7 @@ export default function CertificateSearch() {
         setResults(null);
 
         try {
-            const response = await fetch('/api/peserta/sertifikat', {
+            const response = await fetch('api/peserta/sertifikat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
