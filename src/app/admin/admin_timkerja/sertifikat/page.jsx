@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import SertifikatForm from "@/app/.components/admin/sertifikat/form_sertifikat"
+import SertifikatForm from "../../../components/admin/sertifikat/page"
 
 
 export default function SertifikatPage(){
