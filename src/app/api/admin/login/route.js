@@ -16,7 +16,7 @@ export async function POST(request) {
   try {
     const { username, password, role } = await request.json().catch(() => ({}));
 
-    if (!username || !password || !role) {
+    if (!username   || !password || !role) {
       return NextResponse.json(
         { success: false, error: 'Invalid', message: 'Lengkapi data yang diperlukan!' },
         { status: 400 }
